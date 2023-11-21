@@ -1,0 +1,112 @@
+@addTagHelper *, MvcMovie.Utils
+@using Microsoft.AspNetCore.Html
+
+@{
+    async Task GenerateMenu(List<MenuCustom> menus)
+    {
+        foreach (var menu in menus)
+        {
+            <li class="nav-item @(Html.IsSelected(@menu.Controller, "parent", "menu-is-opening menu-open"))">
+                @if (menu.Childrens?.Count == 0 || menu.Childrens == null)
+                {
+                    <a asp-controller="@menu.Controller" asp-action="@menu.Action"
+                        class="nav-link @(Html.IsSelected(menu.Controller, menu.Action))">
+                        <i class="nav-icon @(string.IsNullOrWhiteSpace(menu.Icon) ? "far fa-circle" : menu.Icon)"></i>
+                        <p>@menu.DisplayName</p>
+                    </a>
+                }
+
+                else if (menu.Childrens.Count > 0)
+                {
+                    <a href="#" class="nav-link @(Html.IsSelected(@menu.Controller, "parent"))">
+                        <i class="nav-icon @(string.IsNullOrWhiteSpace(menu.Icon) ? "far fa-circle" : menu.Icon)"></i>
+                        <p>
+                            @menu.DisplayName
+                            <i class="fas fa-angle-left right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        @{
+                            await GenerateMenu(menu.Childrens);
+                        }
+                    </ul>
+                }
+            </li>
+        }
+    }
+}
+
+
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="index3.html" class="brand-link">
+        <img src="~/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+            style="opacity: .8">
+        <span class="brand-text font-weight-light">ADMIN</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="~/img/avatar4.png" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">lappv</a>
+            </div>
+        </div>
+
+        <!-- SidebarSearch Form -->
+        <div class="form-inline">
+            <div class="input-group" data-widget="sidebar-search">
+                <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
+                <div class="input-group-append">
+                    <button class="btn btn-sidebar">
+                        <i class="fas fa-search fa-fw"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            @* <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+            data-accordion="false">
+            @foreach (var menu in @ViewContext.HttpContext.Items["Menus"] as List<MenuCustom>)
+            {
+            <li class="nav-item ">
+            @if (menu.Childrens.Count == 0)
+            {
+            <a asp-controller="@menu.Controller" asp-action="Index"
+            class="nav-link @(Html.IsSelected(menu.Controller, menu.Action))">
+            <i class="nav-icon @(!string.IsNullOrWhiteSpace(menu.Icon) ? menu.Icon : "far fa-circle")"></i>
+            <p>@menu.DisplayName</p>
+
+            </a>
+            }
+            else
+            {
+            <a asp-controller="@menu.Controller" asp-action="Index"
+            class="nav-link @(Html.IsSelected(menu.Controller, menu.Action))">
+            <i class="nav-icon @(!string.IsNullOrWhiteSpace(menu.Icon) ? menu.Icon : "far fa-circle")"></i>
+            <p>@menu.DisplayName</p>
+
+            </a>
+            }
+
+            </li>
+            }
+            </ul> *@
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                @{
+                    List<MenuCustom> allMenus = ViewContext.HttpContext.Items["Menus"] as List<MenuCustom>;
+                    GenerateMenu(allMenus);
+                }
+            </ul>
+
+        </nav>
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>

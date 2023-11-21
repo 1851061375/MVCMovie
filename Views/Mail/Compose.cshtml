@@ -1,0 +1,194 @@
+﻿@model MvcMovie.Models.MailContent
+@{
+    ViewData["Title"] = "Compose";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+            <div class="col-sm-6">
+                <h1 class="m-0">@ViewData["Title"]</h1>
+            </div><!-- /.col -->
+            <div class="col-sm-6">
+                <ol class="breadcrumb float-sm-right">
+                    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Dashboard</a></li>
+                    <li class="breadcrumb-item active">@ViewData["Title"]</li>
+                </ol>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+    </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+<!-- Main content -->
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-3">
+                <a href="mailbox.html" class="btn btn-primary btn-block mb-3">Back to Inbox</a>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Folders</h3>
+
+                        <div class="card-tools">
+                            <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                                <i class="fas fa-minus"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="card-body p-0">
+                        <ul class="nav nav-pills flex-column">
+                            <li class="nav-item active">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-inbox"></i> Inbox
+                                    <span class="badge bg-primary float-right">12</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-envelope"></i> Sent
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-file-alt"></i> Drafts
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="fas fa-filter"></i> Junk
+                                    <span class="badge bg-warning float-right">65</span>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#" class="nav-link">
+                                    <i class="far fa-trash-alt"></i> Trash
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+                @* <div class="card">
+                <div class="card-header">
+                <h3 class="card-title">Labels</h3>
+
+                <div class="card-tools">
+                <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+                </button>
+                </div>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body p-0">
+                <ul class="nav nav-pills flex-column">
+                <li class="nav-item">
+                <a class="nav-link" href="#"><i class="far fa-circle text-danger"></i> Important</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#"><i class="far fa-circle text-warning"></i>
+                Promotions</a>
+                </li>
+                <li class="nav-item">
+                <a class="nav-link" href="#"><i class="far fa-circle text-primary"></i> Social</a>
+                </li>
+                </ul>
+                </div>
+                <!-- /.card-body -->
+                </div> *@
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">Compose New Message</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <form asp-action="Compose">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <input disabled class="form-control" placeholder="From: @ViewData["Mail"]">
+                                    </div>
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="form-group">
+                                        <input asp-for="To" class="form-control" placeholder="To:">
+                                        <span asp-validation-for="To" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <input asp-for="Subject" class="form-control" placeholder="Subject:">
+                                        <span asp-validation-for="Subject" class="text-danger"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <textarea asp-for="Body" id="compose-textarea" class="form-control">
+                                        </textarea>
+                                        <span asp-validation-for="Body" class="text-danger"></span>
+                                    </div>
+                                </div>
+
+                            </div>
+                            <div class="form-group">
+                                <div class="btn btn-default btn-file">
+                                    <i class="fas fa-paperclip"></i> Attachment
+                                    <input type="file" name="attachment">
+                                </div>
+                                <p class="help-block">Max. 32MB</p>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="float-right">
+                                <button type="button" class="btn btn-success toastrDefaultSuccess">
+                                    Launch Success Toast
+                                </button>
+                                <button type="button" class="btn btn-success toastsDefaultSuccess">
+                                    Launch Success Toast
+                                </button>
+                                <button type="button" class="btn btn-default"><i class="fas fa-pencil-alt"></i>
+                                    Draft</button>
+                                <button type="submit" class="btn btn-primary"><i class="far fa-envelope"></i>
+                                    Send</button>
+                            </div>
+                            <button type="reset" class="btn btn-default"><i class="fas fa-times"></i> Discard</button>
+                        </div>
+                    </form>
+                    <!-- /.card-body -->
+
+                    <!-- /.card-footer -->
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </div><!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+@section Scripts {
+    <script>
+        //Add text editor
+        $('#compose-textarea').summernote()
+        $('.toastrDefaultSuccess').click(function () {
+            toastr.success('Lorem ipsum dolor sit amet, consetetur sadipscing elitr.')
+        });
+        $('.toastsDefaultSuccess').click(function () {
+            $toast.success();
+        });
+
+
+
+    </script>
+}

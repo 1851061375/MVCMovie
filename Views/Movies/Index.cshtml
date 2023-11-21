@@ -1,0 +1,169 @@
+@model MvcMovie.Models.MovieGenreViewModel
+
+@{
+  ViewData["Title"] = "Movies";
+}
+
+<!-- Content Header (Page header) -->
+<div class="content-header">
+  <div class="container-fluid">
+    <div class="row mb-2">
+      <div class="col-sm-6">
+        <h1 class="m-0">@ViewData["Title"]</h1>
+      </div><!-- /.col -->
+    </div><!-- /.row -->
+  </div><!-- /.container-fluid -->
+</div>
+<!-- /.content-header -->
+
+<!-- Main content -->
+<section class="content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-12">
+        <p>
+          <a asp-action="Create">Create New</a>
+        </p>
+
+        <form method="get" asp-controller="Movies" asp-action="Index">
+          <p>
+            <select asp-for="MovieGenre" asp-items="Model.Genres">
+              <option value="">All</option>
+            </select>
+
+            Title: <input type="text" asp-for="SearchString" />
+            <input type="submit" value="Filter" />
+          </p>
+        </form>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div class="card">
+          <div class="card-header">
+            <h3 class="card-title">DataTable with default features</h3>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <table id="example1" class="table table-bordered table-striped">
+              <thead>
+                <tr>
+                  <th>
+                    @Html.DisplayNameFor(model => model.Movies![0].Title)
+                  </th>
+                  <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Movies![0].ReleaseDate)
+                  </th>
+                  <th>
+                    @Html.DisplayNameFor(model => model.Movies![0].Genre)
+                  </th>
+                  <th>
+                    @Html.DisplayNameFor(model => model.Movies![0].Price)
+                  </th>
+                  <th class="text-center">
+                    @Html.DisplayNameFor(model => model.Movies![0].Rating)
+                  </th>
+                  <th style="width: 15%;" class="text-center">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @foreach (var item in Model.Movies!)
+                {
+                  <tr>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td class="text-center">
+                      @Html.DisplayFor(modelItem => item.ReleaseDate)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Genre)
+                    </td>
+                    <td>
+                      @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td class="text-center">
+                      @Html.DisplayFor(modelItem => item.Rating)
+                    </td>
+                    <td class="project-actions text-center">
+                      <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id">
+                        <i class="fas fa-eye"></i>
+                        View
+                      </a>
+                      <a class="btn btn-info btn-sm" asp-action="Edit" asp-route-id="@item.Id">
+                        <i class="fas fa-pencil-alt"></i>
+                        Edit
+                      </a>
+                      <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">
+                        <i class="fas fa-trash"></i>
+                        Delete
+                      </a>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+              @* <tfoot>
+              <tr>
+              <th>
+              @Html.DisplayNameFor(model => model.Movies![0].Title)
+              </th>
+              <th class="text-center">
+              @Html.DisplayNameFor(model => model.Movies![0].ReleaseDate)
+              </th>
+              <th>
+              @Html.DisplayNameFor(model => model.Movies![0].Genre)
+              </th>
+              <th>
+              @Html.DisplayNameFor(model => model.Movies![0].Price)
+              </th>
+              <th class="text-center">
+              @Html.DisplayNameFor(model => model.Movies![0].Rating)
+              </th>
+              <th style="width: 15%;" class="text-center">Action</th>
+              </tr>
+              </tfoot> *@
+            </table>
+          </div>
+          <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+      </div>
+      <!-- /.col -->
+    </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container-fluid -->
+</section>
+<!-- /.content -->
+
+@section Scripts {
+  <!-- DataTables  & Plugins -->
+  <script src="~/lib/datatables/jquery.dataTables.min.js"></script>
+  <script src="~/lib/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+  <script src="~/lib/datatables-responsive/js/dataTables.responsive.min.js"></script>
+  <script src="~/lib/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+  <script src="~/lib/datatables-buttons/js/dataTables.buttons.min.js"></script>
+  <script src="~/lib/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+  <script src="~/lib/jszip/jszip.min.js"></script>
+  <script src="~/lib/pdfmake/pdfmake.min.js"></script>
+  <script src="~/lib/pdfmake/vfs_fonts.js"></script>
+  <script src="~/lib/datatables-buttons/js/buttons.html5.min.js"></script>
+  <script src="~/lib/datatables-buttons/js/buttons.print.min.js"></script>
+  <script src="~/lib/datatables-buttons/js/buttons.colVis.min.js"></script>
+  @if (TempData["Messages"] != null)
+  {
+    <partial name="../Shared/Partial/_Toast" />
+  }
+
+  <script>
+    $(function () {
+      $("#example1").DataTable({
+        "searching": false,
+        "responsive": true, "lengthChange": false, "autoWidth": false,
+        "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
+      }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
+    });
+  </script>
+
+
+}
